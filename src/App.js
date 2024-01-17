@@ -80,6 +80,13 @@ function App() {
       </table>
       <h2>Pokemon</h2>
       <h3>Compteur : {pokemons.results?.length}</h3>
+      {pokemons.results 
+      ? 
+        <ul>
+          {pokemons.results?.map(pokemon => <li key={pokemon.name}>{pokemon.name}</li>)}
+        </ul> 
+      : "Chargement en cours"}
+      
     </div>
   );
 }
