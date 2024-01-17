@@ -34,8 +34,18 @@ const step = grid => {
 function App() {
   const initialGridSize = 20
   const [gridSize, setGridSize] = useState(initialGridSize);
+  const [pokemons, setPokemons] = useState({});
   const [grid, setGrid] = useState(generateGrid(initialGridSize));
   const [play, setPlay] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const promiseGetAllPokemons = await fetch("https://pokeapi.co/api/v2/pokemon");
+      const getAllPokemonsJSON = await promiseGetAllPokemons.json();
+      setPokemons(getAllPokemonsJSON);
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {    
     setGrid(generateGrid(gridSize))
@@ -55,8 +65,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Game of life</h1>
-      <h2>Grid size : {gridSize}</h2>
+      <h2>Game of life</h2>
+      <h3>Grid size : {gridSize}</h3>
       <input type="number" name="gridSize" value={gridSize} id="" onChange={(e) => setGridSize(e.target.value)}/>
       <button onClick={() => setGrid(grid => step(grid))}>Next Step</button>
       <button onClick={playHandler}>{play ? "Pause": "Play"}</button>
@@ -68,6 +78,8 @@ function App() {
           })}
         > {cell ? "❤️" : "💀"} </button></td>)}</tr>)}
       </table>
+      <h2>Pokemon</h2>
+      <h3>Compteur : {pokemons.results?.length}</h3>
     </div>
   );
 }
