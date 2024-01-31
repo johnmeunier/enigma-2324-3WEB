@@ -62,6 +62,12 @@ export const Pokemon = () => {
               </button>
             </>
           )}
+
+          {Math.abs(
+            new URLSearchParams(new URL(urlToFetch).search).get("offset") /
+              limit
+          ) + 1}
+
           {nextUrl && (
             <>
               <button onClick={() => setUrlToFetch(nextUrl)}>
