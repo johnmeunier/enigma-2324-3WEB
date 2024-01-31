@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { modifySearchParam } from './Pokemon.pure';
+
 
 export const Pokemon = () => {
   const [pokemons, setPokemons] = useState([]);
@@ -11,7 +13,6 @@ export const Pokemon = () => {
     async function fetchData() {
       const promiseGetAllPokemons = await fetch(urlToFetch);
       const getAllPokemonsJSON = await promiseGetAllPokemons.json();
-      console.log(getAllPokemonsJSON);
       setPreviousUrl(getAllPokemonsJSON.previous);
       setNextUrl(getAllPokemonsJSON.next);
       setPokemons(getAllPokemonsJSON.results);
@@ -20,8 +21,8 @@ export const Pokemon = () => {
   }, [urlToFetch]);
 
   useEffect(() => {
-    setUrlToFetch(url => `${url.slice(0,url.indexOf('limit='))}limit=${limit}`)
-  }, [limit])
+    setUrlToFetch(url => modifySearchParam(url, "limit", limit))
+  }, [limit]);
 
   return <>
     <h2>Pokemon</h2>
@@ -37,7 +38,7 @@ export const Pokemon = () => {
       <>
       <ol>
         {pokemons.map(pokemon => <li key={pokemon.name}>{pokemon.name}</li>)}
-      </ol> 
+      </ol>
       {
         previousUrl && <button onClick={() => setUrlToFetch(previousUrl)}>Précédent</button>
       }
