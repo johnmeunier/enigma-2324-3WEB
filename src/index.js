@@ -16,10 +16,13 @@ import './index.css';
 
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <App />,
     errorElement: <h1> Error </h1>,
     children: [
+      {
+        path: "/",
+        element: <h2>Home</h2>
+      },
       {
         path: "game-of-life",
         element: <GameOfLife />,
