@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export const Pokemon = () => {
   useEffect(() => {
     async function fetchData() {
-      const promiseGetAllPokemons = await fetch("https://pokeapi.co/api/v2/pokemon");
+      const promiseGetAllPokemons = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10");
       const getAllPokemonsJSON = await promiseGetAllPokemons.json();
       setPokemons(getAllPokemonsJSON);
     }
@@ -17,9 +17,9 @@ export const Pokemon = () => {
     <h3>Compteur : {pokemons.results?.length}</h3>
     {pokemons.results 
     ? 
-      <ul>
+      <ol>
         {pokemons.results?.map(pokemon => <li key={pokemon.name}>{pokemon.name}</li>)}
-      </ul> 
+      </ol> 
     : "Chargement en cours"}
         
   </>
