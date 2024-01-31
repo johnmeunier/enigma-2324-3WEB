@@ -1,18 +1,27 @@
 import { useState, useEffect } from 'react';
 
 export const Pokemon = () => {
-  const [pokemons, setPokemons] = useState({});
+  const [pokemons, setPokemons] = useState([]);
+  const [previousUrl, setPreviousUrl] = useState("");
+  const [nextUrl, setNextUrl] = useState("");
   const [limit, setLimit] = useState(10);
+  const [urlToFetch, setUrlToFetch] = useState(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${limit}`);
 
   useEffect(() => {
     async function fetchData() {
-      const promiseGetAllPokemons = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
+      const promiseGetAllPokemons = await fetch(urlToFetch);
       const getAllPokemonsJSON = await promiseGetAllPokemons.json();
-      setPokemons(getAllPokemonsJSON);
+      console.log(getAllPokemonsJSON);
+      setPreviousUrl(getAllPokemonsJSON.previous);
+      setNextUrl(getAllPokemonsJSON.next);
+      setPokemons(getAllPokemonsJSON.results);
     }
     fetchData();
-  }, [limit]);
+  }, [urlToFetch]);
 
+  useEffect(() => {
+    setUrlToFetch(url => `${url.slice(0,url.indexOf('limit='))}limit=${limit}`)
+  }, [limit])
 
   return <>
     <h2>Pokemon</h2>
@@ -22,13 +31,21 @@ export const Pokemon = () => {
       <option value="50">50</option>
       <option value="100">100</option>
     </select>
-    <h3>Compteur : {pokemons.results?.length}</h3>
-    {pokemons.results 
+    <h3>Compteur : {pokemons.length}</h3>
+    {pokemons.length > 0
     ? 
+      <>
       <ol>
-        {pokemons.results?.map(pokemon => <li key={pokemon.name}>{pokemon.name}</li>)}
+        {pokemons.map(pokemon => <li key={pokemon.name}>{pokemon.name}</li>)}
       </ol> 
+      {
+        previousUrl && <button onClick={() => setUrlToFetch(previousUrl)}>Précédent</button>
+      }
+      {
+        nextUrl && <button onClick={() => setUrlToFetch(nextUrl)}>Suivant</button>
+      }
+      </>
     : "Chargement en cours"}
-        
+    
   </>
 }
