@@ -1,22 +1,42 @@
+import "./App.css";
 import {
-  Link,
-  Outlet
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
 } from "react-router-dom";
 
-import './App.css';
+import HomePage from "./pages/Homepage";
+import PokemonList from "./pages/Pokemon/List";
+import PokemonDetails from "./pages/Pokemon/Details";
+import Root from "./pages/Root";
 
-function App() {
- 
-  return (
-    <div className="App">
-      <h1>Enigma</h1>
-      <nav>
-        <Link to="/game-of-life">Game Of Life</Link>
-        <Link to="/pokemon">Pokemon</Link>
-      </nav>
-      <Outlet/>
-    </div>
-  );
-}
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<Root />}>
+      <Route path="/" element={<HomePage />} />
+      <Route
+        path="pokemon/"
+        element={<PokemonList />}
+        loader={() => ["toto", "tata"]}
+      />
+      <Route
+        path="pokemon/:name"
+        element={<PokemonDetails />}
+        loader={async ({ params }) => {
+          const promiseGetAllPokemons = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${params.name}`
+          );
+          const pokemon = await promiseGetAllPokemons.json();
+          return pokemon;
+        }}
+        errorElement={<h2>Errror</h2>}
+      />
+      <Route path="*" element={<div>Not Found</div>} />
+    </Route>
+  )
+);
+
+const App = () => <RouterProvider router={router} />;
 
 export default App;
