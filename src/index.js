@@ -1,18 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import { GameOfLife } from './pages/GameOfLife';
-import { Pokemon } from './pages/Pokemon';
- 
-import { worker } from './mocks/browser';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { GameOfLife } from "./pages/GameOfLife";
+import { Pokemon } from "./pages/Pokemon";
 
-import App from './App';
-import './index.css';
+import { worker } from "./mocks/browser";
 
-// worker.start();
+import App from "./App";
+import "./index.css";
+
+worker.start();
 
 const router = createBrowserRouter([
   {
@@ -21,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h2>Home</h2>
+        element: <h2>Home</h2>,
       },
       {
         path: "game-of-life",
@@ -31,9 +28,9 @@ const router = createBrowserRouter([
         path: "pokemon",
         element: <Pokemon />,
       },
-    ]
+    ],
   },
 ]);
- 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={router} />);
