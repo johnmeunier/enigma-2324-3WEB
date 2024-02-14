@@ -45,3 +45,31 @@ test("display 50 pokemons", async () => {
     expect($options).toHaveLength(50);
   });
 });
+
+test("display page 2", async () => {
+  render(<App />);
+  const $link = screen.getByRole("link", { name: /Liste/i });
+  act(() => {
+    $link.click();
+  });
+  const $nextButton = await screen.findByRole("button", { name: /suivant/i });
+  act(() => {
+    $nextButton.click();
+  });
+  expect(await screen.findByText("metapod")).toBeInTheDocument();
+});
+
+test("hide last button", async () => {
+  render(<App />);
+  const $link = screen.getByRole("link", { name: /Liste/i });
+  act(() => {
+    $link.click();
+  });
+  const $lastButton = await screen.findByRole("button", { name: /dernier/i });
+  act(() => {
+    $lastButton.click();
+  });
+  await waitFor(() => {
+    expect($lastButton).not.toBeInTheDocument();
+  });
+});
