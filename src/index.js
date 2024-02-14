@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { GameOfLife } from "./pages/GameOfLife";
-import { Pokemon } from "./pages/Pokemon";
+import { Pokemon, PokemonDetails } from "./pages/Pokemon";
 
 import { worker } from "./mocks/browser";
 
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "pokemon",
         element: <Pokemon />,
+      },
+      {
+        path: "pokemon/:name",
+        element: <PokemonDetails />,
       },
     ],
   },

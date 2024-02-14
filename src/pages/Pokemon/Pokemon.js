@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { modifySearchParam } from "./Pokemon.pure";
 
 export const Pokemon = () => {
@@ -45,7 +46,9 @@ export const Pokemon = () => {
         <>
           <ol>
             {pokemons.map((pokemon) => (
-              <li key={pokemon.name}>{pokemon.name}</li>
+              <li key={pokemon.name}>
+                <Link to={pokemon.name}>{pokemon.name}</Link>
+              </li>
             ))}
           </ol>
           {previousUrl && (
