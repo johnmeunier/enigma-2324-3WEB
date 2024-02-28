@@ -4,15 +4,13 @@ import Limit from "../../components/Limit";
 import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
 
-export default () => {
+const List = () => {
   const [pokemons, setPokemons] = useState([]);
   const [previousUrl, setPreviousUrl] = useState("");
   const [nextUrl, setNextUrl] = useState("");
   const [limit, setLimit] = useState(10);
   const [count, setCount] = useState(null);
-  const [urlToFetch, setUrlToFetch] = useState(
-    `https://pokeapi.co/api/v2/pokemon?offset=0&limit=${limit}`
-  );
+  const [urlToFetch, setUrlToFetch] = useState(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${limit}`);
 
   useEffect(() => {
     async function fetchData() {
@@ -59,3 +57,5 @@ export default () => {
     </>
   );
 };
+
+export default List;

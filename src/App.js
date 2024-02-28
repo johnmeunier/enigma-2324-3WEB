@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 
 import HomePage from "./pages/Homepage";
 import PokemonList from "./pages/Pokemon/List";
@@ -15,23 +10,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Root />}>
       <Route path="/" element={<HomePage />} />
-      <Route
-        path="pokemon/"
-        element={<PokemonList />}
-        loader={() => ["toto", "tata"]}
-      />
-      <Route
-        path="pokemon/:name"
-        element={<PokemonDetails />}
-        loader={async ({ params }) => {
-          const promiseGetAllPokemons = await fetch(
-            `https://pokeapi.co/api/v2/pokemon/${params.name}`
-          );
-          const pokemon = await promiseGetAllPokemons.json();
-          return pokemon;
-        }}
-        errorElement={<h2>Errror</h2>}
-      />
+      <Route path="pokemon/" element={<PokemonList />} loader={() => ["toto", "tata"]} />
+      <Route path="pokemon/:name" element={<PokemonDetails />} errorElement={<h2>Errror</h2>} />
       <Route path="*" element={<div>Not Found</div>} />
     </Route>
   )

@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { useParams, useLoaderData } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import usePokemon from "../../hooks/usePokemon";
 
-export default () => {
-  const [error, setError] = useState(null);
+const Pokemon = () => {
   const { name } = useParams();
-
-  const pokemon = useLoaderData();
+  const { pokemon, error } = usePokemon(name);
 
   return error ? (
     error
@@ -18,3 +16,5 @@ export default () => {
     "Chargement en cours"
   );
 };
+
+export default Pokemon;
